@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent - SkillMatch Jobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        main {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .dashboard-container {
+            padding: 30px;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-info h2 {
+            color: #333;
+        }
+        
+        .user-info p {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .ai-agent-section {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .ai-agent-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .analysis-summary {
+            display: flex;
+            justify-content: space-around;
+            background: #eef2ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .summary-item {
+            padding: 10px;
+        }
+        
+        .summary-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .analysis-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .skills-analysis, .job-recommendations {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .skills-analysis h3, .job-recommendations h3 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .skill-matching {
+            margin-bottom: 25px;
+        }
+        
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .skill-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .skill-level {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .skill-weak {
+            color: #ff6b6b;
+        }
+        
+        .skill-missing {
+            color: #ff6b6b;
+            font-style: italic;
+        }
+        
+        .improvement-tips .tip-item {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tip-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .tip-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .job-card {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .job-company {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .job-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .job-skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .match-percentage {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .match-high {
+            background: #4ade80;
+            color: white;
+        }
+        
+        .match-medium {
+            background: #fbbf24;
+            color: white;
+        }
+        
+        .match-low {
+            background: #f97316;
+            color: white;
+        }
+        
+        .mismatch {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SkillMatch Jobs</h1>
+            <p>AI-Powered Skill Analysis & Job Recommendations</p>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <div class="user-info">
+                    <div>
+                        <h2>Welcome, <span id="userName">Bindu</span></h2>
+                        <p id="userEmail">sbindu414@gmail.com</p>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="window.location.href='dashboard.html'">Profile</button>
+                    <button class="nav-btn" onclick="window.location.href='skill-analysis.html'">Skill Analysis</button>
+                    <button class="nav-btn active" onclick="window.location.href='ai-agent.html'">AI Agent</button>
+                    <button class="nav-btn" onclick="window.location.href='career-insights.html'">Career Insights</button>
+                    <button class="nav-btn" onclick="window.location.href='job-search.html'">Job Search</button>
+                </div>
+                
+                <!-- AI Agent Section -->
+                <div class="ai-agent-section">
+                    <h2>AI Skill Analyst</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                        Analyzing your skills and matching you with the best job opportunities
+                    </p>
+                    
+                    <div class="analysis-summary">
+                        <div class="summary-item">
+                            <div class="summary-value">85%</div>
+                            <div class="summary-label">Skill Match</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">5</div>
+                            <div class="summary-label">Jobs Found</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value">3</div>
+                            <div class="summary-label">Skills to Improve</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-container">
+                        <!-- Skills Analysis -->
+                        <div class="skills-analysis">
+                            <h3>Your Skills Analysis</h3>
+                            <div class="skill-matching">
+                                <div class="skill-item">
+                                    <span class="skill-name">JavaScript</span>
+                                    <span class="skill-level">Advanced (90%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Python</span>
+                                    <span class="skill-level">Intermediate (75%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">React</span>
+                                    <span class="skill-level">Advanced (85%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Node.js</span>
+                                    <span class="skill-level">Intermediate (70%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">HTML/CSS</span>
+                                    <span class="skill-level">Expert (95%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">MongoDB</span>
+                                    <span class="skill-level">Beginner (60%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Java</span>
+                                    <span class="skill-level skill-weak">Weak (45%)</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">SQL</span>
+                                    <span class="skill-level skill-missing">Missing</span>
+                                </div>
+                            </div>
+                            
+                            <div class="improvement-tips">
+                                <h4>Skills to Improve</h4>
+                                <div class="tip-item">
+                                    <div class="tip-title">Java (45%) - Weak Skill</div>
+                                    <div class="tip-description">Take an advanced Java course to improve your object-oriented programming skills. Focus on Spring Framework and multithreading.</div>
+                                </div>
+                                <div class="tip-item">
+                                    <div class="tip-title">SQL - Missing Skill</div>
+                                    <div class="tip-description">Learn SQL fundamentals including joins, subqueries, and database design. Consider taking a course on PostgreSQL or MySQL.</div>
+                                </div>
+                                <div class="tip-item">
+                                    <div class="tip-title">MongoDB (60%) - Intermediate</div>
+                                    <div class="tip-description">Deepen your knowledge of MongoDB aggregation framework and performance optimization techniques.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Job Recommendations -->
+                        <div class="job-recommendations">
+                            <h3>Recommended Jobs</h3>
+                            <div id="jobRecommendationsContainer">
+                                <!-- Job recommendations will be loaded here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Load skills analysis from backend
+        async function loadSkillsAnalysis() {
+            try {
+                const response = await fetch('http://localhost:5000/api/user/1/skill-gap');
+                const skillData = await response.json();
+                
+                // Update skills to improve count in summary
+                document.querySelector('.summary-item:nth-child(3) .summary-value').textContent = 
+                    skillData.learningRecommendations ? skillData.learningRecommendations.length : 3;
+                
+                // Update skills analysis section with real data
+                // This would be more complex in a real implementation
+            } catch (error) {
+                console.error('Error loading skills analysis:', error);
+            }
+        }
+
+        // Load job recommendations from backend
+        async function loadJobRecommendations() {
+            try {
+                const response = await fetch('http://localhost:5000/api/user/1/recommendations');
+                const recommendations = await response.json();
+                
+                // Update the summary
+                document.querySelector('.summary-item:nth-child(2) .summary-value').textContent = recommendations.length;
+                
+                // Clear existing job cards container
+                const jobContainer = document.getElementById('jobRecommendationsContainer');
+                jobContainer.innerHTML = '';
+                
+                // Add all recommendations from backend
+                recommendations.forEach(job => {
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'job-card';
+                    
+                    // Determine match class based on percentage
+                    let matchClass = 'match-high';
+                    if (job.matchPercentage < 70) matchClass = 'match-medium';
+                    if (job.matchPercentage < 60) matchClass = 'match-low';
+                    if (job.matchPercentage < 50) matchClass = 'mismatch';
+                    
+                    // Create skills tags
+                    let skillsHtml = '';
+                    job.requiredSkills.forEach(skill => {
+                        skillsHtml += `<span class="job-skill-tag">${skill}</span>`;
+                    });
+                    
+                    jobCard.innerHTML = `
+                        <div class="job-title">${job.title}</div>
+                        <div class="job-company">${job.company}</div>
+                        <div class="job-description">
+                            ${job.description}
+                        </div>
+                        <div class="job-skills">
+                            ${skillsHtml}
+                        </div>
+                        <div class="match-percentage ${matchClass}">${job.matchPercentage}% Match</div>
+                    `;
+                    
+                    jobContainer.appendChild(jobCard);
+                });
+            } catch (error) {
+                console.error('Error loading job recommendations:', error);
+                // Fallback to static content if API fails
+                jobContainer.innerHTML = `
+                    <div class="job-card">
+                        <div class="job-title">Senior Frontend Developer</div>
+                        <div class="job-company">Tech Solutions Inc.</div>
+                        <div class="job-description">
+                            We are looking for an experienced frontend developer with strong React skills to join our team.
+                        </div>
+                        <div class="job-skills">
+                            <span class="job-skill-tag">JavaScript</span>
+                            <span class="job-skill-tag">React</span>
+                            <span class="job-skill-tag">HTML/CSS</span>
+                            <span class="job-skill-tag">Node.js</span>
+                        </div>
+                        <div class="match-percentage match-high">85% Match</div>
+                    </div>
+                    <!-- Additional static job cards would go here -->
+                `;
+            }
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+            loadSkillsAnalysis();
+            loadJobRecommendations();
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Recommendations</title>
+</head>
+<body>
+    <h1>Test Recommendations Fetch</h1>
+    <div id="result"></div>
+
+    <script>
+        async function testRecommendations() {
+            try {
+                const response = await fetch('http://localhost:5000/api/user/1/recommendations');
+                const recommendations = await response.json();
+                
+                document.getElementById('result').innerHTML = `
+                    <h2>Success!</h2>
+                    <p>Fetched ${recommendations.length} job recommendations from the backend.</p>
+                    <ul>
+                        ${recommendations.map(job => `<li>${job.title} at ${job.company} (${job.matchPercentage}% match)</li>`).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+
+        // Run the test when page loads
+        window.onload = testRecommendations;
+    </script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1498837134379-c0c7920d4a49?ixlib=rb-4.0.3') center/cover;
+            color: white;
+            padding: 80px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-section h1 {
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #4ecca3, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-section p {
+            font-size: 1.3rem;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .features {
+            margin-top: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(78, 204, 163, 0.15);
+            transform: translateX(5px);
+        }
+
+        .feature i {
+            font-size: 1.8rem;
+            margin-right: 20px;
+            color: #4ecca3;
+            width: 50px;
+            height: 50px;
+            background: rgba(78, 204, 163, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .feature-content p {
+            font-size: 1rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .login-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f, #4ecca3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .logo-icon {
+            font-size: 3.5rem;
+            color: #1a2a6c;
+            margin-bottom: 15px;
+        }
+
+        .logo h2 {
+            color: #1a2a6c;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .logo h2 span {
+            color: #b21f1f;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .login-container h3 {
+            text-align: center;
+            margin-bottom: 35px;
+            color: #1e293b;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 1.1rem;
+        }
+
+        .form-group .input-with-icon {
+            position: relative;
+        }
+
+        .form-group .input-with-icon i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 18px 18px 18px 55px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 17px;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 4px rgba(26, 42, 108, 0.1);
+            background: #fff;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(26, 42, 108, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(26, 42, 108, 0.4);
+            background: linear-gradient(135deg, #223388, #d12525);
+        }
+
+        .demo-login {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .demo-login p {
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, #4ecca3, #2a9d8f);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.3);
+        }
+
+        .btn-demo:hover {
+            background: linear-gradient(135deg, #3da58a, #218c74);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(78, 204, 163, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .welcome-section, .login-section {
+                width: 100%;
+            }
+            
+            .welcome-section {
+                padding: 50px 30px;
+            }
+            
+            .login-section {
+                padding: 50px 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .welcome-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-section p {
+                font-size: 1.1rem;
+            }
+            
+            .feature {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .feature i {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>SkillMatch Professional</h1>
+                <p>Your gateway to career advancement through intelligent skill matching and personalized job recommendations.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-brain"></i>
+                        <div class="feature-content">
+                            <h3>AI-Powered Matching</h3>
+                            <p>Advanced algorithms match your skills with perfect job opportunities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-chart-line"></i>
+                        <div class="feature-content">
+                            <h3>Career Insights</h3>
+                            <p>Gain valuable market insights and salary trends for your skills.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="feature-content">
+                            <h3>Skill Development</h3>
+                            <p>Personalized learning paths to bridge skill gaps and advance your career.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-section">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h2>Skill<span>Match</span></h2>
+                <p>Professional Career Platform</p>
+            </div>
+            
+            <div class="login-container">
+                <h3>Sign In to Your Account</h3>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                
+                <div class="demo-login">
+                    <p>Or continue with a demo account</p>
+                    <button class="btn-demo" onclick="loginAsDemo()">
+                        <i class="fas fa-user-clock"></i> Login as Demo User
+                    </button>
+                </div>
+                
+                <div class="footer">
+                    <p>© 2025 SkillMatch Professional. All rights reserved. | 
+                        <a href="#">Privacy Policy</a> | 
+                        <a href="#">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (email && password) {
+                // In a real app, this would send credentials to a server
+                alert('Login successful! Redirecting to dashboard...');
+                window.location.href = 'professional-dashboard.html';
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        function loginAsDemo() {
+            // Demo login - in a real app, this would authenticate with demo credentials
+            alert('Welcome, Demo User! Redirecting to dashboard...');
+            window.location.href = 'professional-dashboard.html';
+        }
+    </script>
+</body>
+</html>

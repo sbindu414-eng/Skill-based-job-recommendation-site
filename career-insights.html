@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Insights - SkillMatch Jobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+
+        .nav-buttons {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Career Insights Section */
+        .career-insights-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .career-insights-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .insights-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .insights-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .salary-insights, .industry-analysis, .networking, .career-paths {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .salary-insights h3, .industry-analysis h3, .networking h3, .career-paths h3 {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        /* Salary Insights */
+        .salary-data {
+            display: flex;
+            justify-content: space-around;
+            background: #eef2ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .salary-item {
+            padding: 10px;
+        }
+
+        .salary-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .salary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .salary-chart {
+            height: 200px;
+            background: white;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        .salary-bar {
+            width: 40px;
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+
+        .salary-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* Skill Gap Analysis */
+        .skill-gap-chart {
+            height: 200px;
+            background: white;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-gap-details {
+            margin-top: 20px;
+        }
+
+        .improvement-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .improvement-item:last-child {
+            border-bottom: none;
+        }
+
+        .skill-name {
+            font-weight: 500;
+        }
+
+        .skill-status {
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .skill-status.missing {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .skill-status.weak {
+            background: #ffa500;
+            color: white;
+        }
+
+        .skill-status.intermediate {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Industry Analysis */
+        .industry-trends {
+            margin-top: 20px;
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .trend-info {
+            flex: 1;
+        }
+
+        .trend-name {
+            font-weight: 500;
+        }
+
+        .trend-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .trend-growth {
+            font-weight: 600;
+            color: #20bf6b;
+        }
+
+        .trend-growth.negative {
+            color: #ff6b6b;
+        }
+
+        /* Networking */
+        .networking-opportunities {
+            margin-top: 20px;
+        }
+
+        .opportunity-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .opportunity-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .opportunity-type {
+            font-size: 12px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .opportunity-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Career Paths */
+        .career-path-visualization {
+            margin-top: 20px;
+        }
+
+        .path-step {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .path-step:not(:last-child):after {
+            content: "";
+            position: absolute;
+            left: 20px;
+            top: 50px;
+            width: 2px;
+            height: 30px;
+            background: #667eea;
+        }
+
+        .path-icon {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .path-details {
+            flex: 1;
+        }
+
+        .path-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .path-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .current-position {
+            background: #20bf6b;
+        }
+
+        .future-position {
+            background: #ffa500;
+        }
+
+        .goal-position {
+            background: #667eea;
+        }
+
+        /* Industry Selector */
+        .industry-selector {
+            margin-bottom: 20px;
+        }
+
+        .industry-selector select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SkillMatch Jobs</h1>
+            <p>Career Insights & Market Analysis</p>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <div class="user-info">
+                    <div>
+                        <h2>Welcome, <span id="userName">Bindu</span></h2>
+                        <p id="userEmail">sbindu414@gmail.com</p>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="window.location.href='dashboard.html'">Profile</button>
+                    <button class="nav-btn" onclick="window.location.href='skill-analysis.html'">Skill Analysis</button>
+                    <button class="nav-btn" onclick="window.location.href='ai-agent.html'">AI Agent</button>
+                    <button class="nav-btn active" onclick="window.location.href='career-insights.html'">Career Insights</button>
+                    <button class="nav-btn" onclick="window.location.href='job-search.html'">Job Search</button>
+                </div>
+                
+                <!-- Career Insights Section -->
+                <div class="career-insights-section">
+                    <h2>Career Insights & Market Analysis</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                        Explore salary trends, industry insights, networking opportunities, and career paths
+                    </p>
+                    
+                    <div class="industry-selector">
+                        <select id="industrySelect" onchange="updateInsights()">
+                            <option value="frontend">Frontend Development</option>
+                            <option value="backend">Backend Development</option>
+                            <option value="fullstack">Full Stack Development</option>
+                            <option value="data-science">Data Science</option>
+                            <option value="cybersecurity">Cybersecurity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="insights-container">
+                        <!-- Salary Insights -->
+                        <div class="salary-insights">
+                            <h3>Salary Insights</h3>
+                            <div class="salary-data">
+                                <div class="salary-item">
+                                    <div class="salary-value">₹6L</div>
+                                    <div class="salary-label">Entry Level</div>
+                                </div>
+                                <div class="salary-item">
+                                    <div class="salary-value">₹12L</div>
+                                    <div class="salary-label">Mid Level</div>
+                                </div>
+                                <div class="salary-item">
+                                    <div class="salary-value">₹20L</div>
+                                    <div class="salary-label">Senior Level</div>
+                                </div>
+                            </div>
+                            
+                            <h4>Skill Gap Analysis</h4>
+                            <div class="skill-gap-chart">
+                                <canvas id="skillGapChart" width="400" height="200"></canvas>
+                            </div>
+                            
+                            <div class="skill-gap-details">
+                                <h4>Skills to Improve</h4>
+                                <div class="improvement-item">
+                                    <div class="skill-name">SQL</div>
+                                    <div class="skill-status missing">Missing</div>
+                                </div>
+                                <div class="improvement-item">
+                                    <div class="skill-name">Java</div>
+                                    <div class="skill-status weak">Weak (45%)</div>
+                                </div>
+                                <div class="improvement-item">
+                                    <div class="skill-name">MongoDB</div>
+                                    <div class="skill-status intermediate">Intermediate (60%)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Industry Analysis -->
+                        <div class="industry-analysis">
+                            <h3>Industry Analysis</h3>
+                            <div class="industry-trends">
+                                <div class="trend-item">
+                                    <div class="trend-info">
+                                        <div class="trend-name">Artificial Intelligence</div>
+                                        <div class="trend-description">Machine learning and AI integration</div>
+                                    </div>
+                                    <div class="trend-growth">+25%</div>
+                                </div>
+                                <div class="trend-item">
+                                    <div class="trend-info">
+                                        <div class="trend-name">Cloud Computing</div>
+                                        <div class="trend-description">AWS, Azure, and GCP adoption</div>
+                                    </div>
+                                    <div class="trend-growth">+18%</div>
+                                </div>
+                                <div class="trend-item">
+                                    <div class="trend-info">
+                                        <div class="trend-name">Cybersecurity</div>
+                                        <div class="trend-description">Data protection and privacy</div>
+                                    </div>
+                                    <div class="trend-growth">+32%</div>
+                                </div>
+                                <div class="trend-item">
+                                    <div class="trend-info">
+                                        <div class="trend-name">Mobile Development</div>
+                                        <div class="trend-description">Cross-platform app development</div>
+                                    </div>
+                                    <div class="trend-growth">+12%</div>
+                                </div>
+                                <div class="trend-item">
+                                    <div class="trend-info">
+                                        <div class="trend-name">DevOps</div>
+                                        <div class="trend-description">CI/CD and automation</div>
+                                    </div>
+                                    <div class="trend-growth negative">-5%</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Networking & Mentorship -->
+                        <div class="networking">
+                            <h3>Networking Opportunities</h3>
+                            <div class="networking-opportunities">
+                                <div class="opportunity-card">
+                                    <div class="opportunity-title">Tech Conference 2025</div>
+                                    <div class="opportunity-type">Conference</div>
+                                    <div class="opportunity-description">Annual technology conference with 500+ industry professionals. Networking sessions and keynote speakers.</div>
+                                    <button class="btn-secondary">Register</button>
+                                </div>
+                                
+                                <div class="opportunity-card">
+                                    <div class="opportunity-title">Frontend Developers Meetup</div>
+                                    <div class="opportunity-type">Meetup</div>
+                                    <div class="opportunity-description">Monthly meetup for frontend developers. Code reviews, project showcases, and peer networking.</div>
+                                    <button class="btn-secondary">Join Group</button>
+                                </div>
+                                
+                                <div class="opportunity-card">
+                                    <div class="opportunity-title">Mentorship Program</div>
+                                    <div class="opportunity-type">Mentorship</div>
+                                    <div class="opportunity-description">Connect with senior developers for career guidance and technical advice. 6-month program.</div>
+                                    <button class="btn-secondary">Apply Now</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Career Paths -->
+                        <div class="career-paths">
+                            <h3>Career Path Visualization</h3>
+                            <div class="career-path-visualization">
+                                <div class="path-step">
+                                    <div class="path-icon current-position">1</div>
+                                    <div class="path-details">
+                                        <div class="path-title">Frontend Developer</div>
+                                        <div class="path-description">Current position with focus on React and JavaScript</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="path-step">
+                                    <div class="path-icon future-position">2</div>
+                                    <div class="path-details">
+                                        <div class="path-title">Full Stack Developer</div>
+                                        <div class="path-description">Expand backend skills with Node.js and databases</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="path-step">
+                                    <div class="path-icon future-position">3</div>
+                                    <div class="path-details">
+                                        <div class="path-title">Senior Developer</div>
+                                        <div class="path-description">Lead projects and mentor junior developers</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="path-step">
+                                    <div class="path-icon goal-position">4</div>
+                                    <div class="path-details">
+                                        <div class="path-title">Engineering Manager</div>
+                                        <div class="path-description">Transition to leadership role managing development teams</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Initialize skill gap chart
+        function initSkillGapChart() {
+            const ctx = document.getElementById('skillGapChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['JavaScript', 'Python', 'React', 'Node.js', 'HTML/CSS', 'MongoDB', 'Java', 'SQL'],
+                    datasets: [{
+                        label: 'Your Skills',
+                        data: [90, 75, 85, 70, 95, 60, 45, 0],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.6)',
+                            'rgba(102, 126, 234, 0.6)',
+                            'rgba(102, 126, 234, 0.6)',
+                            'rgba(102, 126, 234, 0.6)',
+                            'rgba(102, 126, 234, 0.6)',
+                            'rgba(255, 165, 0, 0.6)',
+                            'rgba(255, 165, 0, 0.6)',
+                            'rgba(255, 107, 107, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(255, 165, 0, 1)',
+                            'rgba(255, 165, 0, 1)',
+                            'rgba(255, 107, 107, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Skill Level (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update insights based on selected industry
+        function updateInsights() {
+            const industry = document.getElementById('industrySelect').value;
+            console.log("Updating insights for industry:", industry);
+            updateSalaryData(industry);
+            updateIndustryTrends(industry);
+            updateNetworkingOpportunities(industry);
+            updateCareerPaths(industry);
+        }
+
+        // Update salary data based on industry
+        function updateSalaryData(industry) {
+            console.log("Updating salary data for:", industry);
+            const salaryData = {
+                frontend: {
+                    entry: "₹6L",
+                    mid: "₹12L",
+                    senior: "₹20L",
+                    locations: {
+                        "Bangalore": "₹18L",
+                        "Mumbai": "₹16L",
+                        "Hyderabad": "₹14L",
+                        "Remote": "₹13L",
+                        "Chennai": "₹12L"
+                    }
+                },
+                backend: {
+                    entry: "₹5L",
+                    mid: "₹11L",
+                    senior: "₹18L",
+                    locations: {
+                        "Bangalore": "₹17L",
+                        "Mumbai": "₹15L",
+                        "Hyderabad": "₹13L",
+                        "Remote": "₹12L",
+                        "Chennai": "₹11L"
+                    }
+                },
+                fullstack: {
+                    entry: "₹7L",
+                    mid: "₹13L",
+                    senior: "₹22L",
+                    locations: {
+                        "Bangalore": "₹20L",
+                        "Mumbai": "₹18L",
+                        "Hyderabad": "₹16L",
+                        "Remote": "₹15L",
+                        "Chennai": "₹14L"
+                    }
+                },
+                "data-science": {
+                    entry: "₹8L",
+                    mid: "₹15L",
+                    senior: "₹25L",
+                    locations: {
+                        "Bangalore": "₹23L",
+                        "Mumbai": "₹21L",
+                        "Hyderabad": "₹19L",
+                        "Remote": "₹18L",
+                        "Chennai": "₹17L"
+                    }
+                },
+                cybersecurity: {
+                    entry: "₹7L",
+                    mid: "₹14L",
+                    senior: "₹23L",
+                    locations: {
+                        "Bangalore": "₹21L",
+                        "Mumbai": "₹19L",
+                        "Hyderabad": "₹17L",
+                        "Remote": "₹16L",
+                        "Chennai": "₹15L"
+                    }
+                }
+            };
+
+            const data = salaryData[industry];
+            
+            // Update salary levels
+            document.querySelector('.salary-item:nth-child(1) .salary-value').textContent = data.entry;
+            document.querySelector('.salary-item:nth-child(2) .salary-value').textContent = data.mid;
+            document.querySelector('.salary-item:nth-child(3) .salary-value').textContent = data.senior;
+        }
+
+        // Update industry trends based on selected industry
+        function updateIndustryTrends(industry) {
+            // This would be updated with real data in a production environment
+            // For now, we'll keep the existing trends as they're general
+        }
+
+        // Update networking opportunities based on selected industry
+        function updateNetworkingOpportunities(industry) {
+            // This would be updated with real data in a production environment
+            // For now, we'll keep the existing opportunities as they're general
+        }
+
+        // Update career paths based on selected industry
+        function updateCareerPaths(industry) {
+            // This would be updated with real data in a production environment
+            // For now, we'll keep the existing paths as they're general
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+            initSkillGapChart();
+            updateInsights(); // Initialize with default selection
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

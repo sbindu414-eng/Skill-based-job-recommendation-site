@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMatch Professional - Career Advancement Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #4ecca3;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 25px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-right: 12px;
+            font-weight: 700;
+        }
+
+        .logo h1 span {
+            color: var(--secondary);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(26, 42, 108, 0.3);
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 30px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .feature-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .feature-link:hover {
+            color: var(--secondary);
+            gap: 12px;
+        }
+
+        .platform-overview {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .overview-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .overview-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .overview-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .overview-text {
+            color: var(--gray);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .overview-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+
+
+        footer {
+            background: var(--dark);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .hero {
+                padding: 40px 20px;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h1>Skill<span>Match</span> Professional</h1>
+            </div>
+            
+            <div class="user-actions">
+                <button class="cta-button" onclick="window.location.href='professional-login.html'">
+                    <i class="fas fa-sign-in-alt"></i> Get Started
+                </button>
+            </div>
+        </header>
+        
+        <div class="hero">
+            <h2>Advance Your Career with AI-Powered Insights</h2>
+            <p>SkillMatch Professional connects your skills with perfect job opportunities, provides personalized career guidance, and helps you build the future you envision.</p>
+            <button class="cta-button" onclick="window.location.href='professional-login.html'">
+                <i class="fas fa-rocket"></i> Launch Your Career Journey
+            </button>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3 class="feature-title">AI Career Assistant</h3>
+                <p class="feature-description">Our intelligent agent analyzes your skills and matches you with perfect job opportunities tailored to your experience.</p>
+                <a href="professional-ai-agent.html" class="feature-link">
+                    Explore AI Agent <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="feature-title">Skill Analysis</h3>
+                <p class="feature-description">Identify skill gaps, get personalized learning recommendations, and track your professional development.</p>
+                <a href="professional-skill-analysis.html" class="feature-link">
+                    Analyze Skills <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="feature-title">Career Insights</h3>
+                <p class="feature-description">Stay ahead with real-time market data, salary trends, and career advancement opportunities.</p>
+                <a href="professional-career-insights.html" class="feature-link">
+                    View Insights <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="feature-title">Smart Job Search</h3>
+                <p class="feature-description">Find the perfect opportunities with our advanced search and filtering capabilities.</p>
+                <a href="professional-job-search.html" class="feature-link">
+                    Search Jobs <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3 class="feature-title">Personal Settings</h3>
+                <p class="feature-description">Customize your experience and manage your privacy and notification preferences.</p>
+                <a href="professional-settings.html" class="feature-link">
+                    Manage Settings <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="platform-overview">
+            <h2 class="overview-title">Why Choose SkillMatch Professional?</h2>
+            
+            <div class="overview-content">
+                <div class="overview-text">
+                    <p>SkillMatch Professional is more than just a job board - it's your personal career advancement partner. Our platform combines cutting-edge AI technology with deep industry insights to help you navigate your professional journey.</p>
+                    <br>
+                    <p>Unlike traditional job platforms, we focus on skill matching rather than keyword matching. This means you'll discover opportunities that truly align with your expertise and career goals, even if they don't use the exact terminology you're familiar with.</p>
+                    <br>
+                    <p>Our comprehensive approach includes continuous skill assessment, personalized learning recommendations, and real-time market intelligence to keep you competitive in today's rapidly evolving job market.</p>
+                </div>
+                
+                <div class="overview-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Match Accuracy</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">3.2x</div>
+                        <div class="stat-label">Interview Rate</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">User Satisfaction</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">24h</div>
+                        <div class="stat-label">Avg. Response Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SkillMatch Professional</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@skillmatch.pro</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 SkillMatch Professional. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--accent);"></i> for career advancement.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

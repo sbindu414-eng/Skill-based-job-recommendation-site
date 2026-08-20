@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SkillMatch Jobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .profile-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .profile-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-info h3 {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .profile-details {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .profile-details p {
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-details strong {
+            display: inline-block;
+            width: 120px;
+            color: #555;
+        }
+
+        .edit-profile-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Certificates and Projects Section - Removed as per user request */
+
+        /* Resume Upload Section */
+        .resume-section {
+            display: none;
+        }
+
+        .btn-danger {
+            display: none;
+        }
+
+        .btn-danger:hover {
+            display: none;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            display: none;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .profile-content {
+                flex-direction: column;
+            }
+            
+            .dashboard-container {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SkillMatch Jobs</h1>
+            <p>Jobs matched to your skills</p>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <div class="user-info">
+                    <div>
+                        <h2>Welcome, <span id="userName">Bindu</span></h2>
+                        <p id="userEmail">sbindu414@gmail.com</p>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn active" onclick="window.location.href='dashboard.html'">Profile</button>
+                    <button class="nav-btn" onclick="window.location.href='skill-analysis.html'">Skill Analysis</button>
+                    <button class="nav-btn" onclick="window.location.href='ai-agent.html'">AI Agent</button>
+                    <button class="nav-btn" onclick="window.location.href='career-insights.html'">Career Insights</button>
+                    <button class="nav-btn" onclick="window.location.href='job-search.html'">Job Search</button>
+                </div>
+                
+                <!-- Profile Section -->
+                <div class="profile-section">
+                    <h2><span id="profileUserName">Bindu</span>'s Profile</h2>
+                    <div class="profile-content">
+                        <div class="profile-info">
+                            <h3>Your Details</h3>
+                            <div class="profile-details">
+                                <p><strong>Name:</strong> <span id="profileName">Bindu</span></p>
+                                <p><strong>Email:</strong> <span id="profileEmail">sbindu414@gmail.com</span></p>
+                                <p><strong>Location:</strong> <span id="profileLocation">San Francisco, CA</span></p>
+                                <p><strong>Experience:</strong> <span id="profileExperience">5 years</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-info">
+                            <h3>Edit Profile</h3>
+                            <form id="profileEditForm" class="edit-profile-form">
+                                <div class="form-group">
+                                    <label for="editName">Full Name</label>
+                                    <input type="text" id="editName" name="editName" value="Bindu">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEmail">Email</label>
+                                    <input type="email" id="editEmail" name="editEmail" value="sbindu414@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editLocation">Location</label>
+                                    <input type="text" id="editLocation" name="editLocation" value="Bangalore, Karnataka">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editExperience">Experience</label>
+                                    <select id="editExperience" name="editExperience">
+                                        <option value="0-1 years">0-1 years</option>
+                                        <option value="1-3 years" selected>1-3 years</option>
+                                        <option value="3-5 years">3-5 years</option>
+                                        <option value="5-10 years">5-10 years</option>
+                                        <option value="10+ years">10+ years</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="updateProfile()" class="btn-primary">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </main>
+    </div>
+    
+    <script>
+
+
+        // Load profile information
+        function loadProfile() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com",
+                location: "Bangalore, Karnataka",
+                experience: "1-3 years"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('profileName').textContent = userData.name;
+            document.getElementById('profileEmail').textContent = userData.email;
+            document.getElementById('profileLocation').textContent = userData.location;
+            document.getElementById('profileExperience').textContent = userData.experience;
+            document.getElementById('profileUserName').textContent = userData.name;
+            
+            // Update form fields
+            document.getElementById('editName').value = userData.name;
+            document.getElementById('editEmail').value = userData.email;
+            document.getElementById('editLocation').value = userData.location;
+            document.getElementById('editExperience').value = userData.experience;
+        }
+
+        // Update profile function
+        function updateProfile() {
+            const name = document.getElementById('editName').value;
+            const email = document.getElementById('editEmail').value;
+            const location = document.getElementById('editLocation').value;
+            const experience = document.getElementById('editExperience').value;
+            
+            // Simple validation
+            if (!name || !email) {
+                alert('Name and email are required fields');
+                return;
+            }
+            
+            // Update display elements
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('userName').textContent = name;
+            document.getElementById('profileEmail').textContent = email;
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('profileLocation').textContent = location;
+            document.getElementById('profileExperience').textContent = experience;
+            document.getElementById('profileUserName').textContent = name;
+            
+            alert('Profile updated successfully!');
+        }
+
+        // Load user data when page loads
+        window.onload = function() {
+            loadProfile();
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+    
+    <!-- Chart.js library -->
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(rgba(26, 42, 108, 0.9), rgba(26, 42, 108, 0.9)), url('https://images.unsplash.com/photo-1498837134379-c0c7920d4a49?ixlib=rb-4.0.3') center/cover;
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .features {
+            margin-top: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .feature i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #4ecca3;
+        }
+
+        .login-section {
+            flex: 1;
+            background: white;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h2 {
+            color: #1a2a6c;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .login-container h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group .input-with-icon {
+            position: relative;
+        }
+
+        .form-group .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .demo-login {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .demo-login p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .btn-demo {
+            background: #4ecca3;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-demo:hover {
+            background: #3da58a;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .welcome-section {
+                padding: 40px 30px;
+            }
+            
+            .login-section {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .welcome-section, .login-section {
+                padding: 30px 20px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Welcome to SkillMatch Professional</h1>
+            <p>Connect your skills with the perfect career opportunities. Our AI-powered platform matches you with jobs that align with your expertise and aspirations.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3>AI-Powered Matching</h3>
+                        <p>Intelligent algorithms match your skills with relevant opportunities</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h3>Career Insights</h3>
+                        <p>Data-driven salary trends and industry analysis</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-user-graduate"></i>
+                    <div>
+                        <h3>Skill Development</h3>
+                        <p>Personalized learning recommendations to advance your career</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-section">
+            <div class="logo">
+                <h2>SkillMatch Pro</h2>
+                <p>Professional Career Platform</p>
+            </div>
+            
+            <div class="login-container">
+                <h3>Sign In to Your Account</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Login to Dashboard</button>
+                </form>
+                
+                <div class="demo-login">
+                    <p>Or experience our platform with a demo account</p>
+                    <button class="btn-demo" onclick="loginAsDemo()">Login as Demo User</button>
+                </div>
+                
+                <div class="footer">
+                    <p>© 2025 SkillMatch Professional. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Redirect to dashboard
+            window.location.href = 'enhanced-dashboard.html';
+        });
+        
+        // Demo login function
+        function loginAsDemo() {
+            window.location.href = 'enhanced-dashboard.html';
+        }
+    </script>
+</body>
+</html>

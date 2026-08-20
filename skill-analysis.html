@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Analysis - SkillMatch Jobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+
+        .nav-buttons {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Certificates and Projects Section */
+        .certificates-projects-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .certificates-projects-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .section-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .certificates-section, .projects-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .certificates-section h3, .projects-section h3 {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: #f0f4ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            background: #e0e7ff;
+            border-color: #764ba2;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .file-types {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            background: white;
+            display: none;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .file-icon {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .file-action-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .file-action-btn:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .project-form {
+            margin-bottom: 20px;
+        }
+
+        .project-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .project-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .project-form input,
+        .project-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .project-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .projects-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            background: white;
+            display: none;
+        }
+
+        .project-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .project-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .project-link {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        .project-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .delete-project {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-project:hover {
+            text-decoration: underline;
+        }
+
+        /* Resume Upload Section */
+        .resume-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .resume-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+        }
+
+        .upload-area.highlight {
+            border-color: #667eea;
+            background-color: #eef2ff;
+        }
+
+        .file-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .upload-progress {
+            margin: 15px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .resume-preview {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 5px;
+            border-left: 4px solid #20bf6b;
+            display: none;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            margin-bottom: 40px;
+        }
+
+        .skills-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .skills-summary {
+            margin-top: 15px;
+            padding: 15px;
+            background: #eef2ff;
+            border-radius: 5px;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .analysis-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        canvas {
+            width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SkillMatch Jobs</h1>
+            <p>Skill Analysis Dashboard</p>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <div class="user-info">
+                    <div>
+                        <h2>Welcome, <span id="userName">Bindu</span></h2>
+                        <p id="userEmail">sbindu414@gmail.com</p>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="window.location.href='dashboard.html'">Profile</button>
+                    <button class="nav-btn active" onclick="window.location.href='skill-analysis.html'">Skill Analysis</button>
+                    <button class="nav-btn" onclick="window.location.href='ai-agent.html'">AI Agent</button>
+                    <button class="nav-btn" onclick="window.location.href='career-insights.html'">Career Insights</button>
+                    <button class="nav-btn" onclick="window.location.href='job-search.html'">Job Search</button>
+                </div>
+                
+                <!-- Certificates and Projects Section -->
+                <div class="certificates-projects-section">
+                    <h2>Certificates & Projects</h2>
+                    <div class="section-content">
+                        <!-- Certificates Upload -->
+                        <div class="certificates-section">
+                            <h3>Upload Certificates</h3>
+                            <div class="upload-area" id="certDropZone">
+                                <p>Drag & drop your certificates here or</p>
+                                <input type="file" id="certUpload" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;" multiple>
+                                <button type="button" onclick="document.getElementById('certUpload').click()" class="btn-secondary">Browse Files</button>
+                                <p class="file-types">Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 5MB each)</p>
+                            </div>
+                            <div id="certificateList" class="file-list"></div>
+                        </div>
+
+                        <!-- Project Links -->
+                        <div class="projects-section">
+                            <h3>Project Links</h3>
+                            <form id="projectForm" class="project-form">
+                                <div class="form-group">
+                                    <label for="projectName">Project Name</label>
+                                    <input type="text" id="projectName" placeholder="Enter project name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="projectLink">Project Link</label>
+                                    <input type="url" id="projectLink" placeholder="https://example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="projectDescription">Description</label>
+                                    <textarea id="projectDescription" placeholder="Brief description of your project"></textarea>
+                                </div>
+                                <button type="button" onclick="addProject()" class="btn-primary">Add Project</button>
+                            </form>
+                            <div id="projectsList" class="projects-list"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resume Upload Section -->
+                <div class="resume-section">
+                    <h2>Resume Upload</h2>
+                    <div class="upload-area" id="dropZone">
+                        <p>Drag & drop your resume here or</p>
+                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                        <button type="button" onclick="document.getElementById('resumeUpload').click()" class="nav-btn">Browse Files</button>
+                        <p class="file-info" id="fileInfo"></p>
+                    </div>
+                    <button type="button" onclick="uploadResume()" class="nav-btn" id="uploadBtn" disabled>Upload Resume</button>
+                    
+                    <div class="upload-progress" id="uploadProgress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Uploading...</p>
+                    </div>
+                    
+                    <div class="resume-preview" id="resumePreview">
+                        <h3>Uploaded Resume</h3>
+                        <p id="uploadedFileName"></p>
+                        <button type="button" onclick="downloadResume()" class="nav-btn">Download Resume</button>
+                        <button type="button" onclick="deleteResume()" class="logout-btn">Delete Resume</button>
+                    </div>
+                </div>
+                
+                <!-- Skills Overview Panel -->
+                <div class="skills-section">
+                    <h2>Skills Overview</h2>
+                    <div class="skills-container" id="userSkills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
+                    <div class="skills-summary">
+                        <p>Total Skills: <span id="skillsCount">8</span></p>
+                        <p>Top Skills: <span id="topSkills">JavaScript, Python, React</span></p>
+                    </div>
+                </div>
+                
+                <!-- Skill Gap Analysis Chart -->
+                <div class="analysis-section">
+                    <h2>Skill Gap Analysis</h2>
+                    <div class="chart-container">
+                        <canvas id="skillGapChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('resumeUpload');
+            const fileInfo = document.getElementById('fileInfo');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            // Handle file selection via browse button
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelection(e.target.files[0]);
+            });
+
+            // Handle drag and drop events
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('highlight');
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('highlight');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('highlight');
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+        }
+
+        // Handle file selection
+        function handleFileSelection(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (file) {
+                // Check file type
+                const allowedTypes = ['application/pdf', 'application/msword', 
+                                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                                    'text/plain'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload a PDF, Word document, or text file.');
+                    return;
+                }
+
+                // Check file size (5MB limit)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size exceeds 5MB limit.');
+                    return;
+                }
+
+                // Display file info
+                fileInfo.innerHTML = `
+                    <strong>Selected File:</strong> ${file.name}<br>
+                    <strong>Size:</strong> ${(file.size / 1024).toFixed(2)} KB<br>
+                    <strong>Type:</strong> ${file.type}
+                `;
+                fileInfo.style.display = 'block';
+                uploadBtn.disabled = false;
+            }
+        }
+
+        // Upload resume function
+        function uploadResume() {
+            const fileInput = document.getElementById('resumeUpload');
+            const file = fileInput.files[0];
+            const uploadProgress = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+
+            if (!file) {
+                alert('Please select a file first.');
+                return;
+            }
+
+            // Show progress bar
+            uploadProgress.style.display = 'block';
+            progressText.textContent = 'Uploading...';
+
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = progress + '%';
+                progressText.textContent = `Uploading... ${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    progressText.textContent = 'Upload Complete!';
+                    
+                    // Show resume preview
+                    setTimeout(() => {
+                        document.getElementById('uploadedFileName').textContent = file.name;
+                        document.getElementById('resumePreview').style.display = 'block';
+                        uploadProgress.style.display = 'none';
+                    }, 500);
+                }
+            }, 200);
+        }
+
+        // Download resume function
+        function downloadResume() {
+            const fileName = document.getElementById('uploadedFileName').textContent;
+            if (fileName) {
+                alert(`Downloading ${fileName}... (In a real app, this would download the actual file)`);
+            }
+        }
+
+        // Delete resume function
+        function deleteResume() {
+            if (confirm('Are you sure you want to delete your resume?')) {
+                document.getElementById('resumePreview').style.display = 'none';
+                document.getElementById('fileInfo').style.display = 'none';
+                document.getElementById('resumeUpload').value = '';
+                document.getElementById('uploadBtn').disabled = true;
+            }
+        }
+
+        // Initialize skill gap analysis chart
+        function initializeChart() {
+            const ctx = document.getElementById('skillGapChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['JavaScript', 'Python', 'React', 'Node.js', 'HTML/CSS', 'MongoDB'],
+                    datasets: [{
+                        label: 'Your Skills',
+                        data: [85, 75, 80, 70, 90, 65],
+                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Market Demand',
+                        data: [90, 80, 85, 75, 95, 70],
+                        backgroundColor: 'rgba(118, 75, 162, 0.6)',
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Skill Level (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Handle certificate file selection
+        document.getElementById('certUpload').addEventListener('change', function(e) {
+            handleCertificateFiles(e.target.files);
+        });
+
+        // Handle drag and drop for certificates
+        const certDropZone = document.getElementById('certDropZone');
+        
+        certDropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            certDropZone.style.backgroundColor = '#e0e7ff';
+        });
+        
+        certDropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            certDropZone.style.backgroundColor = '#f0f4ff';
+        });
+        
+        certDropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            certDropZone.style.backgroundColor = '#f0f4ff';
+            handleCertificateFiles(e.dataTransfer.files);
+        });
+
+        // Handle certificate files
+        function handleCertificateFiles(files) {
+            const certificateList = document.getElementById('certificateList');
+            certificateList.style.display = 'block';
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check file size (5MB limit)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`File ${file.name} exceeds 5MB limit`);
+                    continue;
+                }
+                
+                // Check file type
+                const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword', 
+                                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert(`File ${file.name} type is not supported`);
+                    continue;
+                }
+                
+                // Create file item
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <span class="file-icon">📄</span>
+                        <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="file-action-btn" onclick="downloadFile('${file.name}')">Download</button>
+                        <button class="file-action-btn" onclick="deleteFile(this)">Delete</button>
+                    </div>
+                `;
+                
+                certificateList.appendChild(fileItem);
+            }
+        }
+
+        // Download file function
+        function downloadFile(fileName) {
+            alert(`Downloading ${fileName}... (In a real app, this would download the actual file)`);
+        }
+
+        // Delete file function
+        function deleteFile(button) {
+            if (confirm('Are you sure you want to delete this certificate?')) {
+                button.closest('.file-item').remove();
+                
+                // Hide list if empty
+                const certificateList = document.getElementById('certificateList');
+                if (certificateList.children.length === 0) {
+                    certificateList.style.display = 'none';
+                }
+            }
+        }
+
+        // Add project function
+        function addProject() {
+            const projectName = document.getElementById('projectName').value;
+            const projectLink = document.getElementById('projectLink').value;
+            const projectDescription = document.getElementById('projectDescription').value;
+            
+            // Validation
+            if (!projectName || !projectLink) {
+                alert('Please enter both project name and link');
+                return;
+            }
+            
+            // Validate URL format
+            try {
+                new URL(projectLink);
+            } catch (e) {
+                alert('Please enter a valid URL');
+                return;
+            }
+            
+            // Create project item
+            const projectsList = document.getElementById('projectsList');
+            projectsList.style.display = 'block';
+            
+            const projectItem = document.createElement('div');
+            projectItem.className = 'project-item';
+            projectItem.innerHTML = `
+                <div class="project-header">
+                    <a href="${projectLink}" target="_blank" class="project-name project-link">${projectName}</a>
+                    <button class="delete-project" onclick="deleteProject(this)">Delete</button>
+                </div>
+                <div class="project-description">${projectDescription || 'No description provided'}</div>
+            `;
+            
+            projectsList.appendChild(projectItem);
+            
+            // Clear form
+            document.getElementById('projectName').value = '';
+            document.getElementById('projectLink').value = '';
+            document.getElementById('projectDescription').value = '';
+        }
+
+        // Delete project function
+        function deleteProject(button) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                button.closest('.project-item').remove();
+                
+                // Hide list if empty
+                const projectsList = document.getElementById('projectsList');
+                if (projectsList.children.length === 0) {
+                    projectsList.style.display = 'none';
+                }
+            }
+        }
+
+        // Initialize the certificates and projects section
+        function initCertificatesProjects() {
+            // Load any saved certificates and projects from localStorage (if needed)
+            // For now, we'll just initialize the UI
+        }
+
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            // For now, we'll use the same default user as the dashboard
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+            initCertificatesProjects();
+            setupDragAndDrop();
+            initializeChart();
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+    
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

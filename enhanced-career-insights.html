@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Insights - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #4ecca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-details h2 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #8a1818;
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-header h2 {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .card-header i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        /* Career Insights Hero */
+        .career-insights-hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .career-insights-hero h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .career-insights-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        /* Insights Container */
+        .insights-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .insights-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .salary-insights, .industry-analysis, .networking, .career-paths {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+
+        .salary-insights h3, .industry-analysis h3, .networking h3, .career-paths h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        /* Salary Insights */
+        .salary-data {
+            display: flex;
+            justify-content: space-around;
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .salary-item {
+            padding: 10px;
+        }
+
+        .salary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .salary-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .salary-chart {
+            height: 200px;
+            background: var(--light);
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 15px;
+        }
+
+        .salary-bar {
+            width: 40px;
+            background: linear-gradient(to top, var(--primary), var(--secondary));
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 5px;
+        }
+
+        .salary-bar-value {
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transform: rotate(-90deg);
+            white-space: nowrap;
+        }
+
+        .salary-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Industry Analysis */
+        .industry-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .industry-item:last-child {
+            border-bottom: none;
+        }
+
+        .industry-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .industry-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .industry-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .industry-growth {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .growth-positive {
+            color: var(--accent);
+        }
+
+        .growth-negative {
+            color: var(--secondary);
+        }
+
+        /* Networking */
+        .event-item {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .event-description {
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .event-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .event-tag {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Career Paths */
+        .path-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .path-item:last-child {
+            border-bottom: none;
+        }
+
+        .path-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .path-info {
+            flex: 1;
+        }
+
+        .path-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .path-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .user-info {
+                justify-content: center;
+            }
+            
+            .career-insights-hero h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Skill<span>Match</span> Pro</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">B</div>
+                <div class="user-details">
+                    <h2 id="userName">Bindu</h2>
+                    <p id="userEmail">sbindu414@gmail.com</p>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <div class="career-insights-hero">
+            <h2><i class="fas fa-lightbulb"></i> Career Insights & Market Trends</h2>
+            <p>Data-driven insights to guide your career decisions and maximize your earning potential</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="main-content">
+                <div class="insights-container">
+                    <!-- Salary Insights -->
+                    <div class="salary-insights">
+                        <h3><i class="fas fa-rupee-sign"></i> Salary Insights by Experience</h3>
+                        
+                        <div class="salary-data">
+                            <div class="salary-item">
+                                <div class="salary-value">₹8.5L</div>
+                                <div class="salary-label">Entry Level</div>
+                            </div>
+                            <div class="salary-item">
+                                <div class="salary-value">₹15L</div>
+                                <div class="salary-label">Mid Level</div>
+                            </div>
+                            <div class="salary-item">
+                                <div class="salary-value">₹25L</div>
+                                <div class="salary-label">Senior Level</div>
+                            </div>
+                        </div>
+                        
+                        <h4>Salary by Location</h4>
+                        <div class="salary-chart">
+                            <div class="salary-bar" style="height: 120px;">
+                                <div class="salary-bar-value">₹18L</div>
+                                <div class="salary-bar-label">Bangalore</div>
+                            </div>
+                            <div class="salary-bar" style="height: 100px;">
+                                <div class="salary-bar-value">₹15L</div>
+                                <div class="salary-bar-label">Mumbai</div>
+                            </div>
+                            <div class="salary-bar" style="height: 90px;">
+                                <div class="salary-bar-value">₹13.5L</div>
+                                <div class="salary-bar-label">Hyderabad</div>
+                            </div>
+                            <div class="salary-bar" style="height: 80px;">
+                                <div class="salary-bar-value">₹12L</div>
+                                <div class="salary-bar-label">Pune</div>
+                            </div>
+                            <div class="salary-bar" style="height: 70px;">
+                                <div class="salary-bar-value">₹10L</div>
+                                <div class="salary-bar-label">Chennai</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Industry Analysis -->
+                    <div class="industry-analysis">
+                        <h3><i class="fas fa-chart-line"></i> Industry Trends</h3>
+                        
+                        <div class="industry-item">
+                            <div class="industry-info">
+                                <div class="industry-icon">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <div class="industry-name">Software Development</div>
+                            </div>
+                            <div class="industry-growth growth-positive">+12% growth</div>
+                        </div>
+                        
+                        <div class="industry-item">
+                            <div class="industry-info">
+                                <div class="industry-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="industry-name">Data Science</div>
+                            </div>
+                            <div class="industry-growth growth-positive">+18% growth</div>
+                        </div>
+                        
+                        <div class="industry-item">
+                            <div class="industry-info">
+                                <div class="industry-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <div class="industry-name">Cloud Computing</div>
+                            </div>
+                            <div class="industry-growth growth-positive">+22% growth</div>
+                        </div>
+                        
+                        <div class="industry-item">
+                            <div class="industry-info">
+                                <div class="industry-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="industry-name">Mobile Development</div>
+                            </div>
+                            <div class="industry-growth growth-positive">+8% growth</div>
+                        </div>
+                        
+                        <div class="industry-item">
+                            <div class="industry-info">
+                                <div class="industry-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="industry-name">Cybersecurity</div>
+                            </div>
+                            <div class="industry-growth growth-positive">+25% growth</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Networking Opportunities -->
+                    <div class="networking">
+                        <h3><i class="fas fa-users"></i> Networking Events</h3>
+                        
+                        <div class="event-item">
+                            <div class="event-date">
+                                <i class="far fa-calendar-alt"></i> Dec 15, 2025
+                            </div>
+                            <div class="event-title">Bangalore Tech Meetup</div>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i> Innov8 Coworking, Bangalore
+                            </div>
+                            <div class="event-description">
+                                Monthly meetup for tech professionals to network and share knowledge about emerging technologies.
+                            </div>
+                            <div class="event-tags">
+                                <span class="event-tag">Networking</span>
+                                <span class="event-tag">Tech Talks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-item">
+                            <div class="event-date">
+                                <i class="far fa-calendar-alt"></i> Jan 5, 2026
+                            </div>
+                            <div class="event-title">Data Science Conference</div>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i> ITC Gardenia, Bangalore
+                            </div>
+                            <div class="event-description">
+                                Annual conference featuring leading data scientists sharing insights on AI and machine learning.
+                            </div>
+                            <div class="event-tags">
+                                <span class="event-tag">Data Science</span>
+                                <span class="event-tag">AI/ML</span>
+                            </div>
+                        </div>
+                        
+                        <div class="event-item">
+                            <div class="event-date">
+                                <i class="far fa-calendar-alt"></i> Jan 20, 2026
+                            </div>
+                            <div class="event-title">Women in Tech Summit</div>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i> Microsoft Bengaluru
+                            </div>
+                            <div class="event-description">
+                                Empowering women in technology through networking, mentorship, and career development sessions.
+                            </div>
+                            <div class="event-tags">
+                                <span class="event-tag">Diversity</span>
+                                <span class="event-tag">Career Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Career Paths -->
+                    <div class="career-paths">
+                        <h3><i class="fas fa-road"></i> Career Pathways</h3>
+                        
+                        <div class="path-item">
+                            <div class="path-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="path-info">
+                                <div class="path-title">Frontend Developer</div>
+                                <div class="path-description">Specialize in user interfaces and client-side development</div>
+                            </div>
+                        </div>
+                        
+                        <div class="path-item">
+                            <div class="path-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="path-info">
+                                <div class="path-title">Backend Developer</div>
+                                <div class="path-description">Focus on server-side logic and database management</div>
+                            </div>
+                        </div>
+                        
+                        <div class="path-item">
+                            <div class="path-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="path-info">
+                                <div class="path-title">Full Stack Developer</div>
+                                <div class="path-description">Master both frontend and backend technologies</div>
+                            </div>
+                        </div>
+                        
+                        <div class="path-item">
+                            <div class="path-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="path-info">
+                                <div class="path-title">Data Scientist</div>
+                                <div class="path-description">Analyze complex data to drive business decisions</div>
+                            </div>
+                        </div>
+                        
+                        <div class="path-item">
+                            <div class="path-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="path-info">
+                                <div class="path-title">Technical Lead</div>
+                                <div class="path-description">Lead development teams and technical architecture</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bars"></i> Navigation</h2>
+                    </div>
+                    
+                    <div class="nav-menu">
+                        <a href="enhanced-dashboard.html" class="nav-item">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="enhanced-skill-analysis.html" class="nav-item">
+                            <i class="fas fa-chart-bar"></i> Skill Analysis
+                        </a>
+                        <a href="enhanced-ai-agent.html" class="nav-item">
+                            <i class="fas fa-robot"></i> AI Agent
+                        </a>
+                        <a href="enhanced-career-insights.html" class="nav-item active">
+                            <i class="fas fa-lightbulb"></i> Career Insights
+                        </a>
+                        <a href="enhanced-job-search.html" class="nav-item">
+                            <i class="fas fa-search"></i> Job Search
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bell"></i> Alerts</h2>
+                    </div>
+                    
+                    <div class="alerts">
+                        <p><i class="fas fa-exclamation-circle text-warning"></i> Salary trends updated</p>
+                        <p><i class="fas fa-info-circle text-info"></i> New networking events</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'enhanced-login.html';
+            }
+        }
+    </script>
+</body>
+</html>

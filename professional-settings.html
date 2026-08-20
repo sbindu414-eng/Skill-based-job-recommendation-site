@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #4ecca3;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 25px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-right: 12px;
+            font-weight: 700;
+        }
+
+        .logo h1 span {
+            color: var(--secondary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(26, 42, 108, 0.3);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-details h2 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, var(--secondary), #8a1818);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(178, 31, 31, 0.4);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-header h2 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .card-header i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            background: rgba(26, 42, 108, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Settings Hero */
+        .settings-hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(26, 42, 108, 0.3);
+        }
+
+        .settings-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .settings-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
+        }
+
+        /* Settings Sections */
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .settings-group {
+            margin-bottom: 25px;
+        }
+
+        .settings-group-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .setting-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .setting-control {
+            width: 60px;
+            height: 30px;
+            background: var(--light-gray);
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .setting-control.active {
+            background: var(--accent);
+        }
+
+        .setting-toggle {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+
+        .setting-control.active .setting-toggle {
+            left: 32px;
+        }
+
+        .setting-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .setting-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c53030);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            border-radius: 15px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            gap: 15px;
+        }
+
+        .nav-item:hover {
+            background: rgba(26, 42, 108, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(26, 42, 108, 0.2), rgba(26, 42, 108, 0.05));
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            width: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .settings-hero {
+                padding: 30px 20px;
+            }
+            
+            .settings-hero h2 {
+                font-size: 2rem;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h1>Skill<span>Match</span> Professional</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">B</div>
+                <div class="user-details">
+                    <h2 id="userName">Bindu</h2>
+                    <p id="userEmail">sbindu414@gmail.com</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <div class="dashboard-grid">
+            <div class="main-content">
+                <div class="settings-hero">
+                    <h2><i class="fas fa-cog"></i> Account Settings</h2>
+                    <p>Manage your account preferences, notification settings, and privacy options. Customize your SkillMatch Professional experience to suit your needs.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user"></i> Profile Settings</h2>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Personal Information</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Full Name</div>
+                                    <div class="setting-description">This is how others will see you on SkillMatch</div>
+                                </div>
+                                <input type="text" class="setting-input" id="fullName" value="Bindu">
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Email Address</div>
+                                    <div class="setting-description">Your email for account notifications</div>
+                                </div>
+                                <input type="email" class="setting-input" id="email" value="sbindu414@gmail.com">
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Phone Number</div>
+                                    <div class="setting-description">Your contact number for employers</div>
+                                </div>
+                                <input type="tel" class="setting-input" id="phone" value="+91 98765 43210">
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Location</div>
+                                    <div class="setting-description">Your current work location</div>
+                                </div>
+                                <input type="text" class="setting-input" id="location" value="Bangalore, Karnataka">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Profile Visibility</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Public Profile</div>
+                                    <div class="setting-description">Allow employers to find your profile in search results</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Show Contact Information</div>
+                                    <div class="setting-description">Display your email and phone to employers</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Profile Completion Badge</div>
+                                    <div class="setting-description">Show your profile completeness badge to employers</div>
+                                </div>
+                                <div class="setting-control" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button class="btn-save" onclick="saveProfileSettings()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bell"></i> Notification Settings</h2>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Email Notifications</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Job Recommendations</div>
+                                    <div class="setting-description">Receive weekly job recommendations based on your skills</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Application Updates</div>
+                                    <div class="setting-description">Get notified about application status changes</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Skill Insights</div>
+                                    <div class="setting-description">Weekly insights on skill trends and improvements</div>
+                                </div>
+                                <div class="setting-control" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Newsletter</div>
+                                    <div class="setting-description">Monthly newsletter with career tips and industry news</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Push Notifications</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Instant Job Alerts</div>
+                                    <div class="setting-description">Real-time alerts for new job postings</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Message Notifications</div>
+                                    <div class="setting-description">Notifications for new messages from employers</div>
+                                </div>
+                                <div class="setting-control" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-shield-alt"></i> Privacy & Security</h2>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Account Security</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Two-Factor Authentication</div>
+                                    <div class="setting-description">Add an extra layer of security to your account</div>
+                                </div>
+                                <div class="setting-control" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Login Alerts</div>
+                                    <div class="setting-description">Receive email alerts for new sign-in attempts</div>
+                                </div>
+                                <div class="setting-control active" onclick="toggleSetting(this)">
+                                    <div class="setting-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-title">Data Management</div>
+                        
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Download Your Data</div>
+                                    <div class="setting-description">Get a copy of your profile and activity data</div>
+                                </div>
+                                <button class="btn-save" onclick="downloadData()">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-label">Delete Account</div>
+                                    <div class="setting-description">Permanently delete your account and all associated data</div>
+                                </div>
+                                <button class="btn-danger" onclick="deleteAccount()">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bars"></i> Navigation</h2>
+                    </div>
+                    
+                    <div class="nav-menu">
+                        <a href="professional-dashboard.html" class="nav-item">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="professional-ai-agent.html" class="nav-item">
+                            <i class="fas fa-robot"></i> AI Agent
+                        </a>
+                        <a href="professional-skill-analysis.html" class="nav-item">
+                            <i class="fas fa-chart-line"></i> Skill Analysis
+                        </a>
+                        <a href="professional-career-insights.html" class="nav-item">
+                            <i class="fas fa-lightbulb"></i> Career Insights
+                        </a>
+                        <a href="professional-job-search.html" class="nav-item">
+                            <i class="fas fa-search"></i> Job Search
+                        </a>
+
+                        <a href="professional-settings.html" class="nav-item active">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-question-circle"></i> Help & Support</h2>
+                    </div>
+                    
+                    <div class="help-section">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">FAQ</div>
+                                <div class="setting-description">Find answers to common questions</div>
+                            </div>
+                            <button class="btn-save" onclick="openFAQ()">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Contact Support</div>
+                                <div class="setting-description">Get help from our support team</div>
+                            </div>
+                            <button class="btn-save" onclick="contactSupport()">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">Feedback</div>
+                                <div class="setting-description">Share your thoughts to improve SkillMatch</div>
+                            </div>
+                            <button class="btn-save" onclick="giveFeedback()">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Toggle setting
+        function toggleSetting(element) {
+            element.classList.toggle('active');
+        }
+
+        // Save profile settings
+        function saveProfileSettings() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            
+            alert(`Profile settings saved successfully!
+Name: ${fullName}
+Email: ${email}
+Phone: ${phone}
+Location: ${location}`);
+            // In a real app, this would save the settings to the server
+        }
+
+        // Download data
+        function downloadData() {
+            alert('Preparing your data for download...');
+            // In a real app, this would generate and download a data export
+        }
+
+        // Delete account
+        function deleteAccount() {
+            if (confirm('Are you sure you want to permanently delete your account? This action cannot be undone.')) {
+                alert('Account deletion requested. You will receive an email to confirm this action.');
+                // In a real app, this would initiate the account deletion process
+            }
+        }
+
+        // Open FAQ
+        function openFAQ() {
+            alert('Opening FAQ page...');
+            // In a real app, this would navigate to the FAQ page
+        }
+
+        // Contact support
+        function contactSupport() {
+            alert('Opening support contact form...');
+            // In a real app, this would open a support ticket form
+        }
+
+        // Give feedback
+        function giveFeedback() {
+            alert('Opening feedback form...');
+            // In a real app, this would open a feedback form
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'professional-login.html';
+            }
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+        };
+    </script>
+</body>
+</html>

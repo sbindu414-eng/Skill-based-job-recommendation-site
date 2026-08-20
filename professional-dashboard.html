@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #4ecca3;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 25px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-right: 12px;
+            font-weight: 700;
+        }
+
+        .logo h1 span {
+            color: var(--secondary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(26, 42, 108, 0.3);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-details h2 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, var(--secondary), #8a1818);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(178, 31, 31, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(178, 31, 31, 0.4);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-header h2 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .card-header i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            background: rgba(26, 42, 108, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Profile Section */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-info-item {
+            margin-bottom: 20px;
+        }
+
+        .profile-info-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .profile-info-item p {
+            font-size: 1.2rem;
+            color: var(--dark);
+            padding: 15px 20px;
+            background: var(--light);
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .profile-info-item input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .profile-info-item input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 42, 108, 0.1);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--primary), #2a3a9c);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(26, 42, 108, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 42, 108, 0.4);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-cancel {
+            background: var(--light-gray);
+            color: var(--dark);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            border-radius: 15px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            gap: 15px;
+        }
+
+        .nav-item:hover {
+            background: rgba(26, 42, 108, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(26, 42, 108, 0.2), rgba(26, 42, 108, 0.05));
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            width: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h1>Skill<span>Match</span> Professional</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">B</div>
+                <div class="user-details">
+                    <h2 id="userName">Bindu</h2>
+                    <p id="userEmail">sbindu414@gmail.com</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <div class="dashboard-grid">
+            <div class="main-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-circle"></i> Professional Profile</h2>
+                    </div>
+                    
+                    <div class="profile-grid">
+                        <div class="profile-info-item">
+                            <label for="name">Full Name</label>
+                            <p id="displayName">Bindu</p>
+                            <input type="text" id="name" value="Bindu" style="display: none;">
+                        </div>
+                        
+                        <div class="profile-info-item">
+                            <label for="email">Email Address</label>
+                            <p id="displayEmail">sbindu414@gmail.com</p>
+                            <input type="email" id="email" value="sbindu414@gmail.com" style="display: none;">
+                        </div>
+                        
+                        <div class="profile-info-item">
+                            <label for="experience">Experience Level</label>
+                            <p id="displayExperience">1-3 years</p>
+                            <input type="text" id="experience" value="1-3 years" style="display: none;">
+                        </div>
+                        
+                        <div class="profile-info-item">
+                            <label for="location">Location</label>
+                            <p id="displayLocation">Bangalore, Karnataka</p>
+                            <input type="text" id="location" value="Bangalore, Karnataka" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-edit" id="editProfileBtn" onclick="toggleEditProfile()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="btn-save" id="saveProfileBtn" onclick="saveProfile()" style="display: none;">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <button class="btn-cancel" id="cancelProfileBtn" onclick="cancelEditProfile()" style="display: none;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+                
+
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bars"></i> Navigation</h2>
+                    </div>
+                    
+                    <div class="nav-menu">
+                        <a href="professional-dashboard.html" class="nav-item active">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="professional-ai-agent.html" class="nav-item">
+                            <i class="fas fa-robot"></i> AI Agent
+                        </a>
+                        <a href="professional-skill-analysis.html" class="nav-item">
+                            <i class="fas fa-chart-line"></i> Skill Analysis
+                        </a>
+                        <a href="professional-career-insights.html" class="nav-item">
+                            <i class="fas fa-lightbulb"></i> Career Insights
+                        </a>
+                        <a href="professional-job-search.html" class="nav-item">
+                            <i class="fas fa-search"></i> Job Search
+                        </a>
+
+                        <a href="professional-settings.html" class="nav-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bell"></i> Recent Activity</h2>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon icon-green">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>New job match found</p>
+                                <span>2 hours ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-blue">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Skills updated successfully</p>
+                                <span>1 day ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon icon-yellow">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>New learning recommendation</p>
+                                <span>2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com",
+                experience: "1-3 years",
+                location: "Bangalore, Karnataka"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('displayName').textContent = userData.name;
+            document.getElementById('displayEmail').textContent = userData.email;
+            document.getElementById('displayExperience').textContent = userData.experience;
+            document.getElementById('displayLocation').textContent = userData.location;
+        }
+
+        // Toggle profile editing
+        function toggleEditProfile() {
+            // Hide display elements
+            document.getElementById('displayName').style.display = 'none';
+            document.getElementById('displayEmail').style.display = 'none';
+            document.getElementById('displayExperience').style.display = 'none';
+            document.getElementById('displayLocation').style.display = 'none';
+            
+            // Show input fields
+            document.getElementById('name').style.display = 'block';
+            document.getElementById('email').style.display = 'block';
+            document.getElementById('experience').style.display = 'block';
+            document.getElementById('location').style.display = 'block';
+            
+            // Toggle buttons
+            document.getElementById('editProfileBtn').style.display = 'none';
+            document.getElementById('saveProfileBtn').style.display = 'inline-flex';
+            document.getElementById('cancelProfileBtn').style.display = 'inline-flex';
+        }
+
+        // Save profile changes
+        function saveProfile() {
+            // Get values from input fields
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const experience = document.getElementById('experience').value;
+            const location = document.getElementById('location').value;
+            
+            // Update display elements
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('displayExperience').textContent = experience;
+            document.getElementById('displayLocation').textContent = location;
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userEmail').textContent = email;
+            
+            // Hide input fields
+            document.getElementById('name').style.display = 'none';
+            document.getElementById('email').style.display = 'none';
+            document.getElementById('experience').style.display = 'none';
+            document.getElementById('location').style.display = 'none';
+            
+            // Show display elements
+            document.getElementById('displayName').style.display = 'block';
+            document.getElementById('displayEmail').style.display = 'block';
+            document.getElementById('displayExperience').style.display = 'block';
+            document.getElementById('displayLocation').style.display = 'block';
+            
+            // Toggle buttons
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+            document.getElementById('saveProfileBtn').style.display = 'none';
+            document.getElementById('cancelProfileBtn').style.display = 'none';
+            
+            // Show success message
+            alert('Profile updated successfully!');
+        }
+
+        // Cancel profile editing
+        function cancelEditProfile() {
+            // Hide input fields
+            document.getElementById('name').style.display = 'none';
+            document.getElementById('email').style.display = 'none';
+            document.getElementById('experience').style.display = 'none';
+            document.getElementById('location').style.display = 'none';
+            
+            // Show display elements
+            document.getElementById('displayName').style.display = 'block';
+            document.getElementById('displayEmail').style.display = 'block';
+            document.getElementById('displayExperience').style.display = 'block';
+            document.getElementById('displayLocation').style.display = 'block';
+            
+            // Toggle buttons
+            document.getElementById('editProfileBtn').style.display = 'inline-flex';
+            document.getElementById('saveProfileBtn').style.display = 'none';
+            document.getElementById('cancelProfileBtn').style.display = 'none';
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'professional-login.html';
+            }
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+        };
+    </script>
+</body>
+</html>

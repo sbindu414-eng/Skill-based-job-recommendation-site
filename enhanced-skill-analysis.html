@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Analysis - SkillMatch Professional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #4ecca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-details h2 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #8a1818;
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .card-header h2 {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+
+        .card-header i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        /* Skill Analysis Hero */
+        .skill-analysis-hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .skill-analysis-hero h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .skill-analysis-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        /* Certificates and Projects Section */
+        .section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .section-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .certificates-section, .projects-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+
+        .certificates-section h3, .projects-section h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            background: #e0e7ff;
+            border-color: var(--secondary);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .upload-area h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .file-types {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-upload:hover {
+            background: #152052;
+            transform: translateY(-2px);
+        }
+
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 15px;
+            background: white;
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .file-size {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .file-action-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .file-action-btn:hover {
+            color: var(--primary);
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .project-item {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .project-title {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        .project-description {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .project-skill-tag {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .add-project-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .user-info {
+                justify-content: center;
+            }
+            
+            .skill-analysis-hero h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Skill<span>Match</span> Pro</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">B</div>
+                <div class="user-details">
+                    <h2 id="userName">Bindu</h2>
+                    <p id="userEmail">sbindu414@gmail.com</p>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+        
+        <div class="skill-analysis-hero">
+            <h2><i class="fas fa-chart-bar"></i> Skill Analysis & Portfolio</h2>
+            <p>Showcase your achievements, upload certificates, and manage your project portfolio to enhance your professional profile</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="main-content">
+                <div class="section-content">
+                    <!-- Skills Section -->
+                    <div class="certificates-section">
+                        <h3><i class="fas fa-laptop-code"></i> Professional Skills</h3>
+                        
+                        <div class="form-group">
+                            <label for="skillsInput">Add Your Skills (comma separated)</label>
+                            <textarea id="skillsInput" name="skillsInput" placeholder="e.g., JavaScript, React, Node.js, Python, SQL" style="min-height: 120px;"></textarea>
+                        </div>
+                        
+                        <button type="button" onclick="saveSkills()" class="btn-primary" style="margin-top: 15px;">
+                            <i class="fas fa-save"></i> Save Skills
+                        </button>
+                        
+                        <div id="skillsDisplay" style="margin-top: 25px;">
+                            <h4><i class="fas fa-star"></i> Your Current Skills</h4>
+                            <div id="skillsTags" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                                <!-- Skills will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resume Upload Section -->
+                    <div class="projects-section">
+                        <h3><i class="fas fa-file-upload"></i> Resume Upload</h3>
+                        
+                        <div class="upload-area" onclick="document.getElementById('resumeUpload').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Upload Your Resume</h4>
+                            <p>Drag & drop your resume here or click to browse</p>
+                            <div class="file-types">Supported formats: PDF, DOC, DOCX (Max 5MB)</div>
+                            <button class="btn-upload">Select Resume</button>
+                            <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+                        </div>
+                        
+                        <div id="resumeInfo" style="margin-top: 20px; display: none;">
+                            <h4><i class="fas fa-file"></i> Uploaded Resume</h4>
+                            <div class="file-item" style="margin-top: 15px;">
+                                <div class="file-info">
+                                    <i class="fas fa-file-pdf file-icon"></i>
+                                    <div>
+                                        <div class="file-name" id="resumeFileName">resume.pdf</div>
+                                        <div class="file-size" id="resumeFileSize">2.1 MB</div>
+                                    </div>
+                                </div>
+                                <div class="file-actions">
+                                    <button class="file-action-btn" onclick="downloadResume()"><i class="fas fa-download"></i></button>
+                                    <button class="file-action-btn" onclick="removeResume()"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificates Upload Section -->
+                <div class="section-content" style="margin-top: 30px;">
+                    <div class="certificates-section">
+                        <h3><i class="fas fa-certificate"></i> Certificate Upload</h3>
+                        
+                        <div class="upload-area" onclick="document.getElementById('certificateUpload').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Upload Certificate</h4>
+                            <p>Drag & drop your certificate files here or click to browse</p>
+                            <div class="file-types">Supported formats: PDF, JPG, PNG (Max 5MB)</div>
+                            <button class="btn-upload">Select Certificate</button>
+                            <input type="file" id="certificateUpload" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" multiple>
+                        </div>
+                        
+                        <div id="certificatesList" style="margin-top: 20px; display: none;">
+                            <h4><i class="fas fa-file"></i> Uploaded Certificates</h4>
+                            <div id="certificatesContainer" style="margin-top: 15px;">
+                                <!-- Certificates will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GitHub Projects Section -->
+                    <div class="projects-section">
+                        <h3><i class="fab fa-github"></i> GitHub Projects</h3>
+                        
+                        <div class="form-group">
+                            <label for="githubUrl">GitHub Repository URL</label>
+                            <input type="url" id="githubUrl" name="githubUrl" placeholder="https://github.com/username/repository">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectDescription">Project Description</label>
+                            <textarea id="projectDescription" name="projectDescription" placeholder="Describe your project"></textarea>
+                        </div>
+                        
+                        <button type="button" onclick="addGitHubProject()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Add GitHub Project
+                        </button>
+                        
+                        <div id="githubProjectsList" style="margin-top: 25px; display: none;">
+                            <h4><i class="fas fa-project-diagram"></i> Your GitHub Projects</h4>
+                            <div id="githubProjectsContainer" style="margin-top: 15px;">
+                                <!-- GitHub projects will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-bars"></i> Navigation</h2>
+                    </div>
+                    
+                    <div class="nav-menu">
+                        <a href="enhanced-dashboard.html" class="nav-item">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="enhanced-skill-analysis.html" class="nav-item active">
+                            <i class="fas fa-chart-bar"></i> Skill Analysis
+                        </a>
+                        <a href="enhanced-ai-agent.html" class="nav-item">
+                            <i class="fas fa-robot"></i> AI Agent
+                        </a>
+                        <a href="enhanced-career-insights.html" class="nav-item">
+                            <i class="fas fa-lightbulb"></i> Career Insights
+                        </a>
+                        <a href="enhanced-job-search.html" class="nav-item">
+                            <i class="fas fa-search"></i> Job Search
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-lightbulb"></i> Tips</h2>
+                    </div>
+                    
+                    <div class="tips">
+                        <p><i class="fas fa-check-circle text-success"></i> Keep certificates updated</p>
+                        <p><i class="fas fa-exclamation-circle text-warning"></i> Add project descriptions</p>
+                        <p><i class="fas fa-info-circle text-info"></i> Link to live demos when possible</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load user information
+        function loadUserInfo() {
+            // In a real app, this would come from a database or API
+            const userData = {
+                name: "Bindu",
+                email: "sbindu414@gmail.com"
+            };
+            
+            // Update display elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+
+        // Save skills function
+        async function saveSkills() {
+            const skillsInput = document.getElementById('skillsInput').value;
+            if (!skillsInput.trim()) {
+                alert('Please enter at least one skill');
+                return;
+            }
+            
+            // Split skills by comma and trim whitespace
+            const skills = skillsInput.split(',').map(skill => skill.trim()).filter(skill => skill);
+            
+            try {
+                // Send skills to backend
+                const response = await fetch('http://localhost:5000/api/user/1/skills', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ skills })
+                });
+                
+                if (response.ok) {
+                    // Display skills as tags
+                    const skillsTagsContainer = document.getElementById('skillsTags');
+                    skillsTagsContainer.innerHTML = '';
+                    
+                    skills.forEach(skill => {
+                        const skillTag = document.createElement('span');
+                        skillTag.className = 'project-skill-tag';
+                        skillTag.textContent = skill;
+                        skillsTagsContainer.appendChild(skillTag);
+                    });
+                    
+                    // Show the skills display section
+                    document.getElementById('skillsDisplay').style.display = 'block';
+                    
+                    alert('Skills saved successfully!');
+                } else {
+                    alert('Error saving skills. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error saving skills:', error);
+                alert('Error saving skills. Please try again.');
+            }
+        }
+        
+        // Handle resume upload
+        function handleResumeUpload() {
+            const fileInput = document.getElementById('resumeUpload');
+            const file = fileInput.files[0];
+            
+            if (file) {
+                // Display file info
+                document.getElementById('resumeFileName').textContent = file.name;
+                document.getElementById('resumeFileSize').textContent = formatFileSize(file.size);
+                document.getElementById('resumeInfo').style.display = 'block';
+                
+                alert(`Resume "${file.name}" uploaded successfully!`);
+            }
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Download resume
+        function downloadResume() {
+            alert('Downloading resume...');
+            // In a real app, this would download the actual file
+        }
+        
+        // Remove resume
+        function removeResume() {
+            if (confirm('Are you sure you want to remove this resume?')) {
+                document.getElementById('resumeInfo').style.display = 'none';
+                document.getElementById('resumeUpload').value = '';
+                alert('Resume removed successfully!');
+            }
+        }
+        
+        // Handle certificate upload
+        function handleCertificateUpload() {
+            const fileInput = document.getElementById('certificateUpload');
+            const files = fileInput.files;
+            
+            if (files.length > 0) {
+                const certificatesContainer = document.getElementById('certificatesContainer');
+                
+                // Show the certificates list section
+                document.getElementById('certificatesList').style.display = 'block';
+                
+                // Process each file
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    // Create certificate item
+                    const certificateItem = document.createElement('div');
+                    certificateItem.className = 'file-item';
+                    certificateItem.innerHTML = `
+                        <div class="file-info">
+                            <i class="fas fa-file-${getFileIcon(file.name)} file-icon"></i>
+                            <div>
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-size">${formatFileSize(file.size)}</div>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="file-action-btn" onclick="downloadCertificate('${file.name}')"><i class="fas fa-download"></i></button>
+                            <button class="file-action-btn" onclick="removeCertificate(this)"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    certificatesContainer.appendChild(certificateItem);
+                }
+                
+                alert(`${files.length} certificate(s) uploaded successfully!`);
+            }
+        }
+        
+        // Get file icon based on file extension
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            if (ext === 'pdf') return 'pdf';
+            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') return 'image';
+            return 'alt';
+        }
+        
+        // Download certificate
+        function downloadCertificate(filename) {
+            alert(`Downloading certificate: ${filename}`);
+            // In a real app, this would download the actual file
+        }
+        
+        // Remove certificate
+        function removeCertificate(button) {
+            if (confirm('Are you sure you want to remove this certificate?')) {
+                button.closest('.file-item').remove();
+                
+                // Hide container if no certificates left
+                const certificatesContainer = document.getElementById('certificatesContainer');
+                if (certificatesContainer.children.length === 0) {
+                    document.getElementById('certificatesList').style.display = 'none';
+                }
+                
+                alert('Certificate removed successfully!');
+            }
+        }
+        
+        // Add GitHub project
+        function addGitHubProject() {
+            const githubUrl = document.getElementById('githubUrl').value;
+            const projectDescription = document.getElementById('projectDescription').value;
+            
+            if (!githubUrl) {
+                alert('Please enter a GitHub repository URL');
+                return;
+            }
+            
+            // Validate GitHub URL format
+            const githubRegex = /^https:\/\/github\.com\/[\w-]+\/[\w.-]+$/;
+            if (!githubRegex.test(githubUrl)) {
+                alert('Please enter a valid GitHub repository URL');
+                return;
+            }
+            
+            // Extract username and repo name from URL
+            const urlParts = githubUrl.split('/');
+            const username = urlParts[3];
+            const repoName = urlParts[4];
+            
+            // Create project item
+            const projectItem = document.createElement('div');
+            projectItem.className = 'project-item';
+            projectItem.innerHTML = `
+                <div class="project-header">
+                    <div class="project-title">${repoName}</div>
+                </div>
+                <div class="project-description">
+                    ${projectDescription || 'No description provided'}
+                </div>
+                <div class="project-links">
+                    <a href="${githubUrl}" class="project-link" target="_blank"><i class="fab fa-github"></i> View on GitHub</a>
+                </div>
+            `;
+            
+            // Show the projects list section and add the project
+            document.getElementById('githubProjectsList').style.display = 'block';
+            document.getElementById('githubProjectsContainer').appendChild(projectItem);
+            
+            // Reset form
+            document.getElementById('githubUrl').value = '';
+            document.getElementById('projectDescription').value = '';
+            
+            alert('GitHub project added successfully!');
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            loadUserInfo();
+            
+            // Add event listeners
+            document.getElementById('resumeUpload').addEventListener('change', handleResumeUpload);
+            document.getElementById('certificateUpload').addEventListener('change', handleCertificateUpload);
+        };
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, you would clear user session here
+                window.location.href = 'enhanced-login.html';
+            }
+        }
+    </script>
+</body>
+</html>
